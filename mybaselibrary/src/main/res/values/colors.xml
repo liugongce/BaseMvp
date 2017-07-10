@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="transparent">#00000000</color>
+    <color name="toolbar_text_color">#ffffff</color>
+    <color name="basic_wheelview_color">#333333</color>
+    <color name="basic_line">#d5d5d5</color>
+    <color name="choose_dialog_content_color">@color/trans_333333</color>
+
+    <!--通用资源-->
+    <color name="transparent_50">#77000000</color>
+    <color name="transparent_80">#cc000000</color>
+    <color name="white_transparent_20">#ccffffff</color>
+    <color name="black_transparent_20">#cc000000</color>
+    <color name="color_light_white">#eaebf0</color>
+    <!--选图状态栏的设置-->
+    <color name="multiple_image_select_primaryDark">#212121</color>
+
+    <!--自绘制drawable资源-->
+    <color name="bg_gradient_red">#e9211a</color>
+    <color name="bg_gradient_orange">#ea8823</color>
+    <color name="bg_gradient_green">#4dd36d</color>
+    <color name="bg_gradient_green_darker">#4bb66a</color>
+    <color name="ring_user_icon">#55f8f1f1</color>
+    <color name="tv_level">#FDC32E</color>
+
+    <!--纯色-->
+    <color name="black">#000000</color>
+    <color name="blue">#0000ff</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="map_red">#ff4c4a</color>
+
+    <!--登录界面颜色资源-->
+    <color name="bg_ac_login">#eff0f1</color>
+    <color name="bg_ac_login_darker_lv1">#dddddd</color>
+    <color name="trans_999999">#999999</color>
+    <color name="trans_231815">#231815</color>
+    <color name="trans_b3b3b3">#b3b3b3</color>
+    <color name="trans_d3d3d3">#d3d3d3</color>
+    <color name="trans_db241c">#db241c</color>
+    <color name="trans_2b5eaa">#2b5eaa</color>
+    <color name="trans_f0a528">#f0a528</color>
+    <color name="trans_f5f5f5">#f5f5f5</color>
+    <color name="text_ac_login_red">#c21c2e</color>
+    <color name="bg_ac_login_darker">#AAAAAA</color>
+
+    <!--首页资源-->
+    <color name="trans_333333">#333333</color>
+    <color name="trans_484848">#484848</color>
+    <color name="trans_c51728">#c51728</color>
+    <color name="trans_ebebeb">#ebebeb</color>
+    <color name="trans_e6e6e6">#e6e6e6</color>
+    <color name="bg_fg_homepage_iv_tab_add">#ddffffff</color>
+
+
+    <!-- 二维码资源 -->
+    <color name="contents_text">#ff000000</color>
+    <color name="encode_view">#ffffffff</color>
+    <color name="possible_result_points">#c0ffbd21</color>
+    <color name="result_minor_text">#ffc0c0c0</color>
+    <color name="result_points">#c099cc00</color>
+    <color name="result_text">#ffffffff</color>
+    <color name="result_view">#b0000000</color>
+    <color name="status_text">#ffffffff</color>
+    <color name="viewfinder_laser">#ffcc0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+
+
+    <!--资讯详情-->
+    <color name="trans_666666">#666666</color>
+    <color name="bg_base_ac_transparent">#44000000</color>
+
+
+    <color name="trans_c4c4c4">#c4c4c4</color>
+    <color name="trans_e5">#e5e5e5</color>
+
+
+    <color name="text_custom_common_dialog_bottom">#4180fd</color>
+
+</resources>

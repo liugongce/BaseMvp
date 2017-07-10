@@ -1,0 +1,177 @@
+package com.fivefivelike.mybaselibrary.view;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.TranslateAnimation;
+import android.widget.EditText;
+
+
+public class SearchEdittext extends EditText {
+	private Drawable mRightDrawable;
+	private boolean isHasFocus;
+	private TextChangeListener listener;
+//	private Drawable[] drawables; // 控件的图片资源
+//	/**
+//	 * 图标是否默认在左边
+//	 */
+//	private boolean isIconLeft = false;
+//	private Drawable drawableLeft, drawableDel, drawable; // 搜索图标和删除按钮图标
+	public SearchEdittext(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+//		initParams(mContext,attrs);
+		init();
+	}
+	public SearchEdittext(Context context, AttributeSet attrs) {
+		super(context, attrs);
+//		initParams(mContext,attrs);
+		init();
+	}
+	public SearchEdittext(Context context) {
+		super(context);
+		init();
+	}
+//	private void initParams(Context mContext, AttributeSet attrs) {
+//		TypedArray typedArray = mContext.obtainStyledAttributes(attrs, R.styleable.SearchEdittext);
+//		if (typedArray != null) {
+//			drawableDel= typedArray.getDrawable(R.styleable.SearchEdittext_drabledel);
+//			typedArray.recycle();
+//		}
+//	}
+////
+//	@Override
+//	protected void onDraw(Canvas canvas) {
+//		if (isIconLeft) { // 如果是默认样式，直接绘制
+//			if (length() < 1) {
+//				drawableDel = null;
+//			}
+//			this.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableDel, null);
+//			super.onDraw(canvas);
+//		} else { // 如果不是默认样式，需要将图标绘制在中间
+//			if (drawables == null)
+//				drawables = getCompoundDrawables();
+//			if (drawableLeft == null)
+//				drawableLeft = drawables[0];
+//			float textWidth = getPaint().measureText(getHint().toString());
+//			int drawablePadding = getCompoundDrawablePadding();
+//			int drawableWidth = drawableLeft.getIntrinsicWidth();
+//			float bodyWidth = textWidth + drawableWidth + drawablePadding;
+//			canvas.translate((getWidth() - bodyWidth - getPaddingLeft() - getPaddingRight()) / 2, 0);
+//			super.onDraw(canvas);
+//		}
+//	}
+
+	private void init() {
+		// getCompoundDrawables:
+		// Returns drawables for the left, top, right, and bottom borders.
+		Drawable[] drawables = this.getCompoundDrawables();
+		// 取得right位置的Drawable
+		// 即我们在布局文件中设置的android:drawableRight
+		mRightDrawable = drawables[2];
+		// 设置焦点变化的监听
+		this.setOnFocusChangeListener(new FocusChangeListenerImpl());
+		// 设置EditText文字变化的监听
+		this.addTextChangedListener(new TextWatcherImpl());
+		// 初始化时让右边clean图标不可见
+		setClearDrawableVisible(false);
+	}
+	/**
+	 * 当手指抬起的位置在clean的图标的区域 我们将此视为进行清除操作 getWidth():得到控件的宽度
+	 * event.getX():抬起时的坐标(改坐标是相对于控件本身而言的)
+	 * getTotalPaddingRight():clean的图标左边缘至控件右边缘的距离
+	 * getPaddingRight():clean的图标右边缘至控件右边缘的距离 于是: getWidth() -
+	 * getTotalPaddingRight()表示: 控件左边到clean的图标左边缘的区域 getWidth() -
+	 * getPaddingRight()表示: 控件左边到clean的图标右边缘的区域 所以这两者之间的区域刚好是clean的图标的区域
+	 */
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_UP:
+			boolean isClean = (event.getX() > (getWidth() - getTotalPaddingRight()))
+					&& (event.getX() < (getWidth() - getPaddingRight()));
+			if (isClean) {
+				setText("");
+				if(listener!=null) {
+					listener.doClear();
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		return super.onTouchEvent(event);
+	}
+	private class FocusChangeListenerImpl implements OnFocusChangeListener {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			isHasFocus = hasFocus;
+			if (isHasFocus) {
+				boolean isVisible = !TextUtils.isEmpty(getText().toString());
+				setClearDrawableVisible(isVisible);
+			} else {
+				setClearDrawableVisible(false);
+			}
+		}
+	}
+
+	// 当输入结束后判断是否显示右边clean的图标
+	private class TextWatcherImpl implements TextWatcher {
+		@Override
+		public void afterTextChanged(Editable s) {
+			boolean isVisible = !TextUtils.isEmpty(getText().toString());
+			setClearDrawableVisible(isVisible);
+			if(listener!=null){
+			listener.getInput(s.toString());
+			}
+		}
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+									  int after) {
+		}
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+								  int count) {
+		}
+	}
+
+	// 隐藏或者显示右边clean的图标
+	protected void setClearDrawableVisible(boolean isVisible) {
+		Drawable rightDrawable;
+		if (isVisible) {
+			rightDrawable = mRightDrawable;
+		} else {
+			rightDrawable = null;
+		}
+		// 使用代码设置该控件left, top, right, and bottom处的图标
+		setCompoundDrawables(getCompoundDrawables()[0],
+				getCompoundDrawables()[1], rightDrawable,
+				getCompoundDrawables()[3]);
+	}
+
+	// 显示一个动画,以提示用户输入
+	public void setShakeAnimation() {
+		this.setAnimation(shakeAnimation(5));
+	}
+
+	// CycleTimes动画重复的次数
+	public Animation shakeAnimation(int CycleTimes) {
+		Animation translateAnimation = new TranslateAnimation(0, 10, 0, 10);
+		translateAnimation.setInterpolator(new CycleInterpolator(CycleTimes));
+		translateAnimation.setDuration(1000);
+		return translateAnimation;
+	}
+	public interface TextChangeListener{
+		public void getInput(String text);
+		public void doClear();
+	}
+	public void initListener(TextChangeListener listener ){
+		this.listener=listener;
+	};
+}
